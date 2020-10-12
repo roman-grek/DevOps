@@ -1,0 +1,107 @@
+{
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "boot_command": [
+            "<esc><esc><enter>",
+            "/install/vmlinuz noapic ",
+            "initrd=/install/initrd.gz ",
+            "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `preseed`}} ",
+            "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+            "hostname={{user `hostname`}} ",
+            "grub-installer/bootdev=/dev/sda<wait> ",
+            "fb=false debconf/frontend=noninteractive ",
+            "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
+            "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+            "passwd/user-fullname={{user `ssh_fullname`}} ",
+            "passwd/user-password={{user `ssh_password`}} ",
+            "passwd/user-password-again={{user `ssh_password`}} ",
+            "passwd/username={{user `ssh_username`}} ",
+            "-- <enter>"
+            ],
+            "boot_wait": "10s",
+            "disk_size": "{{user `disk_size`}}",
+            "guest_os_type": "{{user `virtualbox_guest_os_type`}}",
+            "headless": "{{user `headless`}}",
+            "hard_drive_interface": "sata",
+            "http_directory": "http",
+            "iso_urls": [
+                "{{user `iso_path`}}/{{user `iso_name`}}",
+                "{{user `iso_url`}}"
+            ],
+            "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+            "ssh_password": "{{user `ssh_password`}}",
+            "ssh_username": "{{user `ssh_username`}}",
+            "ssh_port": 22,
+            "ssh_wait_timeout": "10000s",
+            "shutdown_command": "echo '{{user `ssh_password`}}'|sudo -S shutdown -P now",
+            "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+            "virtualbox_version_file": ".vbox_version",
+            "vm_name": "packer-ubuntu-18.04-amd64",
+            "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--audio", "none"],
+                ["modifyvm", "{{.Name}}", "--usb", "off"],
+                ["modifyvm", "{{.Name}}", "--vram", "12"],
+                ["modifyvm", "{{.Name}}", "--vrde", "off"],
+                ["modifyvm", "{{.Name}}", "--nictype1", "virtio"],
+                ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"],
+                ["modifyvm", "{{.Name}}", "--cpus", "{{user `cpus`}}"]
+            ]
+        }
+    ],
+    "provisioners": [{
+        "environment_vars": [
+            "DEBIAN_FRONTEND=noninteractive",
+            "UPDATE={{user `update`}}",
+            "DISABLE_IPV6={{user `disable_ipv6`}}",
+            "SSH_USERNAME={{user `ssh_username`}}",
+            "SSH_PASSWORD={{user `ssh_password`}}",
+            "http_proxy={{user `http_proxy`}}",
+            "https_proxy={{user `https_proxy`}}",
+            "no_proxy={{user `no_proxy`}}"
+        ],
+        "type": "shell",
+        "expect_disconnect": true,
+        "execute_command": "echo '{{user `ssh_password`}}'|{{.Vars}} sudo -E -S bash '{{.Path}}'",
+        "scripts": [
+            "scripts/update.sh",
+            "scripts/vagrant.sh",
+            "scripts/virtualbox.sh",
+            "scripts/motd.sh",
+            "scripts/minimize.sh",
+            "scripts/cleanup.sh"
+        ]
+    }],
+    "post-processors": [{
+        "type": "vagrant",
+        "compression_level": "8",
+        "keep_input_artifact": false,
+        "output": "ubuntu-18.04-{{.Provider}}.box",
+        "vagrantfile_template": "{{user `vagrantfile_template`}}"
+    }],
+    "variables": {
+        "cpus": "1",
+        "disable_ipv6": "true",
+        "disk_size": "20480",
+        "headless": "false",
+        "hostname": "bionic64",
+        "http_proxy": "{{env `http_proxy`}}",
+        "https_proxy": "{{env `https_proxy`}}",
+        "iso_checksum": "8c5fc24894394035402f66f3824beb7234b757dd2b5531379cb310cedfdf0996",
+        "iso_checksum_type": "sha256",
+        "iso_name": "ubuntu-18.04.5-server-amd64.iso",
+        "iso_path": "iso",
+        "iso_url": "http://cdimage.ubuntu.com/ubuntu/releases/bionic/release/ubuntu-18.04.5-server-amd64.iso",
+        "memory": "1024",
+        "no_proxy": "{{env `no_proxy`}}",
+        "preseed": "preseed.cfg",
+        "ssh_fullname": "vagrant",
+        "ssh_password": "vagrant",
+        "ssh_username": "vagrant",
+        "update": "true",
+        "vagrantfile_template": "",
+        "version": "0.1",
+        "virtualbox_guest_os_type": "Ubuntu_64",
+        "vm_name": "ubuntu-18.04"
+    }
+}
