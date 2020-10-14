@@ -1,0 +1,7 @@
+1_Containers/Packer/Ubuntu 18.04/iso/ubuntu-18.04.5-server-amd64.iso
+1_Containers/Packer/Ubuntu 18.04/packer_cache/*
+1_Containers/Vagrant/ubuntu_vagrant/ubuntu-18.04-virtualbox.box
+1_Containers/Vagrant/ubuntu_vagrant/.vagrant/*
+1_Containers/Vagrant/ubuntu_vagrant/nodes/*
+Task_3/.idea/*
+Task_3/Task_3/.idea/*

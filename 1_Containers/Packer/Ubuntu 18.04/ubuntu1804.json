@@ -83,7 +83,7 @@
         "cpus": "1",
         "disable_ipv6": "true",
         "disk_size": "20480",
-        "headless": "false",
+        "headless": "true",
         "hostname": "bionic64",
         "http_proxy": "{{env `http_proxy`}}",
         "https_proxy": "{{env `https_proxy`}}",
