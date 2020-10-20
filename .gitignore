@@ -6,3 +6,5 @@
 Task_3/.idea/*
 Task_3/Task_3/.idea/*
 1_Containers/Packer/Ubuntu_18.04/output-virtualbox-iso/*
+1_Containers/Packer/Ubuntu_18.04/ubuntu-18.04-virtualbox.box
+1_Containers/Packer/ubuntu_qemu_18.04/packer_cache/*
