@@ -21,6 +21,7 @@ RUN bash -c ' \
     apt-get install -y --no-install-recommends "$pkg" && \
     apt-get install -y apache2 && \
     apt-get install -y ntp && \
+    apt-get install -y mysql-client && \
     apt clean'
 
 COPY profile.d/java.sh /etc/profile.d/
@@ -33,12 +34,12 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_PID_FILE /var/run/apache2.pid
 
 # Update the default apache site with the config we created.
-ADD apache-config.conf /etc/apache2/sites-enabled/000-default.conf
+# ADD apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 
 ADD web/www /var/www/site/app
 
 ENV JAVA_HOME=/usr
 
-EXPOSE 8081:80
+# EXPOSE 8081:80
 
 CMD /usr/sbin/apache2ctl -D FOREGROUND

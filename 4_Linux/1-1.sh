@@ -1,4 +1,6 @@
 #!/bin/bash
 
 # get list of all processes and count rows
-ps -aux | wc -l
+lines=$(ps -aux | wc -l)
+lines=$(( lines - 1 ))
+echo $lines
