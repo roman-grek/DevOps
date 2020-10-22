@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basic-deployment
+  namespace: basic
+  labels:
+    app: my-basic-app
+    owner: RomanGrek
+spec:
+  selector:
+    matchLabels:
+      project: my-basic-project
+  template:
+    metadata:
+      labels:
+        project: my-basic-project
+    spec:
+      containers:
+        - name: basic-web
+          image: crccheck/hello-world:latest
+          ports:
+            - containerPort: 8000
+  

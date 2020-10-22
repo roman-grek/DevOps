@@ -13,7 +13,6 @@ services:
       - web
       - tomcat
     volumes:
-        #- ./nginx.conf:/etc/nginx/conf.d/default.conf:rw
         - ./nginx.conf:/etc/nginx/nginx.conf:rw
 
   web:
@@ -21,8 +20,8 @@ services:
     volumes: 
       - ./web/etc/sites-enabled:/etc/apache2/sites-enabled
       - ./web/www:/var/www/site
-    #depends_on: 
-      #- mysql57
+    depends_on: 
+       - mysql
     networks: 
       - site1
       - database
@@ -32,18 +31,17 @@ services:
     networks: 
       - site2
 
-  mysql57:
+  mysql:
     image: percona:5.7
     environment: 
-      MYSQL_DATABASE: db
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: new_base
     volumes: 
-      - "./mysql/configs/my.cnf:/etc/mysql/conf.d/custom.cnf:rw"
-      - "/home/roman/DevOps/1_Containers/Docker/Docker-compose/mysql/mysql:/var/lib/mysql:rw"
+      - "./.mysql-data/db:/var/lib/mysql"
     networks: 
       - database
 
-networks: 
+networks:
   site1:
   site2:
   database:
