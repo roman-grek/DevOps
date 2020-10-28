@@ -5,7 +5,6 @@ services:
     image: nginx:latest
     ports:
       - 80:80/tcp
-      - 81:8080/tcp
     networks: 
       - site1
       - site2
@@ -27,7 +26,7 @@ services:
       - database
   
   tomcat:
-    image: tomcat:latest
+    build: ./tomcat
     networks: 
       - site2
 
