@@ -20,8 +20,11 @@ Usage: `vagrant up --no-provision && vagrant provision`
 devtest.sh - bash script to start Docker container with nginx, port fowarding 8080:80 and mounted nginx/etc directory.
 
 Dockerfile_task contains Dockerfile to run Ubuntu container with apache2, JDK and ntp.
+
 Create image: `sudo docker build -t ubuntu_apache .`.
+
 Run container: `sudo docker run -d -it --name grek_apache2 -p 8081:80 ubuntu_apache`
+
 You can find this image on [Dockerhub](https://hub.docker.com/r/skeptic2000/ubuntu_apache).
 
 ### Docker-compose:
@@ -32,15 +35,19 @@ Command: `sudo docker-compose up -d`
 ### Kubernetes:
 
 Contains .yml-files for creating basic namespace, basic deployment and basic ingress controller.
+
 Commands:
+
 To create namespace - `kubectl apply -f namespace-basic.yml`
+
 To use namespace - `kubectl config set-context basic`
+
 To create deployment - `kubectl apply -f deployment-basic.yml`
+
 To expose deployment - `kubectl expose deployment basic-deployment --type=NodePort --port=8000`
+
 To create ingress - `kubectl apply -f ingress-basic.yml`
 
 Screenshots of the result are provided.
-
-
 
 TODO: provide mariadb instead of mysql
