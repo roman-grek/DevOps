@@ -1,0 +1,10 @@
+---
+  - hosts: amazon
+    become: yes
+
+    roles:
+    - ../roles/apache
+    - ../roles/mysql
+    - ../roles/php
+    - ../roles/php-mysql
+    - ../roles/npm
