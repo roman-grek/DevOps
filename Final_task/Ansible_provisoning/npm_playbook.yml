@@ -1,0 +1,33 @@
+---
+  - hosts: amazon
+    become: no
+
+    vars:
+      nvm_version: 0.34.0
+      node_version: 15.1.0
+
+    tasks:
+    - name: Download nvm installer
+      get_url: url="https://raw.githubusercontent.com/creationix/nvm/v{{ nvm_version }}/install.sh" dest=~/nvm-installer.sh mode=u=rwx,g=r,o=x
+
+    - name: Execute the nvm-installer.sh
+      command: ~/nvm-installer.sh
+      args:
+        creates: ~/.nvm/nvm.sh
+
+    - name: Own the nvm script
+      file:
+        path: ~/.nvm/nvm.sh
+        state: touch
+        mode: u=rwx,g=r,o=rwx
+
+    - name: Activate nvm
+      command: /bin/bash ~/.nvm/nvm.sh
+      args:
+        chdir: "~/"
+
+    - name: Install node
+      shell: |
+        source ~/.bashrc
+        nvm install "{{ node_version }}"
+        nvm use --delete-prefix "v{{ node_version }}" --silent

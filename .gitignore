@@ -12,3 +12,5 @@ Task_3/Task_3/.idea/*
 3_Ansible/ubuntu-18.04-virtualbox.box
 3_Ansible/.vagrant/*
 3_Ansible/vagrant-vm.pub
+7_IAAS/terraform.tfstate
+7_IAAS/.terraform/*
