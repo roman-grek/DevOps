@@ -1,0 +1,8 @@
+---
+- name: Test
+  hosts: ab
+  become: yes
+
+  roles:
+  #- { role: apt, when: ansible_system == 'Linux' }
+  - { role: ntp, when: ansible_system == 'Linux' }

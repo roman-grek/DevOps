@@ -49,5 +49,3 @@ To expose deployment - `kubectl expose deployment basic-deployment --type=NodePo
 To create ingress - `kubectl apply -f ingress-basic.yml`
 
 Screenshots of the result are provided.
-
-TODO: provide mariadb instead of mysql

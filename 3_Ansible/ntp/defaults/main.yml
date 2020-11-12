@@ -1,0 +1,10 @@
+---
+# defaults file for ntp
+timezone: Europe/Minsk
+ntp_server: ntp.ubuntu.com
+ntp_tzdata_package: tzdata
+__ntp_daemon: ntp
+__ntp_config_file: /etc/ntp.conf
+__ntp_package: ntp
+ntp_cron_daemon: cron
+__ntp_driftfile: /var/lib/ntp/drift

@@ -1,0 +1,49 @@
+Parameters:
+  InstanceTypeParameter: 
+    Type: String
+    Default: t2.micro
+    AllowedValues: 
+      - t2.micro
+      - t2.small
+      - t2.medium
+    Description: Enter t2.micro, t2.small, or t2.medium. Default is t2.micro.
+  KeyPairParameter:
+    Type: AWS::EC2::KeyPair::KeyName
+  PublicIpParameter:
+    Type: String
+    AllowedValues:
+      - true
+      - false
+    Default: true
+  VPCParameter:
+    Type: AWS::EC2::VPC::Id
+  SubnetParameter:
+    Type: AWS::EC2::Subnet::Id
+  InstanceNameParameter:
+    Type: String
+    
+Resources:
+  StaticSiteInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-00af3708387e9497a
+      InstanceType:
+        Ref: InstanceTypeParameter
+      KeyName:
+        Ref: KeyPairParameter
+      NetworkInterfaces:
+        - AssociatePublicIpAddress:
+            Ref: PublicIpParameter
+          SubnetId:
+            Ref: SubnetParameter
+          DeleteOnTermination: true
+          DeviceIndex: 0
+      Tags:
+        - Key: Name
+          Value:
+            Ref: InstanceNameParameter
+
+Outputs:
+  PublicIP:
+    Value: !GetAtt StaticSiteInstance.PublicIp
+    Description: Public IP of the instance
